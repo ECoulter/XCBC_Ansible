@@ -1,0 +1,5 @@
+---
+ - hosts: headnode
+   tasks:
+   - name: install XSEDE yum repo
+     yum: name=httpd state=present

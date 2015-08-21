@@ -1,7 +1,0 @@
----
- - hosts: headnode
-   tasks:
-   - name: get XSEDE yum repo installer
-     get_url: url=http://gw97.iu.xsede.org/xsederepo/xsede-release-0-2.noarch.rpm dest=/tmp/xsede-release-0-2.noarch.rpm
-   - name: install XSEDE yum repo
-     shell: rpm -ivh /tmp/xsede-release-0-2.noarch.rpm

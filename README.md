@@ -5,12 +5,11 @@ Ansible handles post-Rocks installation configuration.
 Currently working:
 
  -- install the XSEDE yum repo for future updates (maybe a bad idea!)
+ --- now with the Yum module after bugfix!
+
+ -- TODO: safely yum update
 
  -- Configure basic Torque queue
  
-Currently NOT Working:
-
- -- YUM module fails in Rocks
-
- -- Current yum\* playbooks have ugly workarounds (yum2) or failure examples
- 
+ -- install Globus repo & packages
+ --- does NOT complete config and install of server yet

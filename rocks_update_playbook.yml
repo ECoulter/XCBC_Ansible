@@ -1,0 +1,18 @@
+---
+ - hosts: headnode
+   tasks:
+     - name: copy yum rpms into local rocks repo
+       copy: src={{ item }} dest=/export/rocks/install/contrib/6.2/x86_64/RPMS
+       with_fileglob:
+         - /var/cache/yum/xsede/packages/* 
+
+     - name: rocks create distro
+       command: rocks create distro
+       args: 
+           chdir: /export/rocks/install/
+
+     - name: rocks reinstall all nodes
+       command: rocks set host boot % action=install
+ 
+     - name: rocks reboot compute nodes
+       command : rocks run host % '/sbin/reboot'

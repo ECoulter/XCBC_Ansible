@@ -22,14 +22,14 @@
    gather_facts: yes
    tasks:
 
+   - template: src=conf_files/globus-connect-server.conf dest=/etc/globus-connect-server.conf
+
    - expect:
        command: globus-connect-server-setup
        responses:
          (?i)Globus Username: "{{ globus_username }}"
          (?i)Globus Password: "{{ globus_passwd }}"
-   
-   - template: src=/root/Ansible_stuff/conf_files/globus-connect-server.conf dest=/etc/globus-connect-server.conf
-
+  
    vars_prompt:
     - name: globus_username
       prompt: "Enter your Globus Online Username:"
@@ -39,7 +39,4 @@
       private: yes
 
    vars:
-     globus_endpoint_name: "{{ ansible_hostname }}#{{ globus_username }}" 
-
-
-
+     globus_endpoint_name: "{{ globus_username }}#{{ ansible_hostname }}" 

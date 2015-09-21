@@ -5,11 +5,11 @@ Ansible handles post-Rocks installation configuration.
 Currently working:
 
  -- install the XSEDE yum repo for future updates (maybe a bad idea!)
- --- now with the Yum module after bugfix!
 
- -- TODO: safely yum update
+ -- install and config a basic globus endpoint server, along with
+    all client software
 
- -- Configure basic Torque queue
- 
- -- install Globus repo & packages
- --- does NOT complete config and install of server yet
+ -- update the current rocks install with packages brought in
+    from Yum
+
+ -- install and config a basic torque queue

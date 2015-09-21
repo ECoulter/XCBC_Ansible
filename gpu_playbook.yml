@@ -1,0 +1,43 @@
+---
+ - hosts: headnode
+   gather_facts: yes
+   tasks:
+
+   vars:
+     cuda_toolkit_version: "{{ 7.5.18 }}" 
+
+   vars_prompt:
+    - name: gpu_node_list
+      prompt: "Enter the list of gpu nodes, separated by spaces:"
+      private: no
+
+   - name: get nvidia driver
+     get_url: url= dest=/export/apps/cuda_install.run
+
+#how best to do this? template w/ backup?
+# block_in_file?
+# bash nonsense?
+   - name: add cuda-install to extend-compute.xml
+   - block_in_file: src=conf_files/globus-connect-server.conf dest=/etc/globus-connect-server.conf
+
+# -- MAKE SURE THIS WORKS RIGHT
+   - shell: rocks list bootaction | grep gpuinstall
+     register: gpu_install_flag 
+   - name: create bootaction if not present
+     command: rocks create bootaction gpuinstall=
+     when: gpu_install_flag == ''
+  
+   - name: set nodes to re-install at next boot
+     yum: name=globus-connect-server state=present enablerepo=base
+
+#CHECK THIS!
+   - name: rocks reboot gpu nodes
+     command : rocks run host {{ item }} '/sbin/reboot'
+     with_items:
+        "{{ gpu_node_list }}"
+
+ # WAIT AND REBOOT AGAIN...
+ # https://support.ansible.com/hc/en-us/articles/201958037-Reboot-a-server-and-wait-for-it-to-come-back
+ # add task for this...; 
+   - name: rocks reboot compute nodes
+     command : rocks run host compute '/sbin/reboot'

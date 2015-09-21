@@ -13,3 +13,5 @@ Currently working:
     from Yum
 
  -- install and config a basic torque queue
+
+ -- GPU playbook currently in development!

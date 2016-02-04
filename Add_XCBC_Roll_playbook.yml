@@ -1,0 +1,27 @@
+---
+ - hosts: headnode
+   tasks:
+   - name: get XCBC rocks roll
+     get_url: url=http://software.xsede.org/cb/centos6/x86_64/xsede-0.0.10-0.x86_64.disk1.iso dest=/tmp/xcbc_roll.iso
+
+   - name: rocks add xcbc roll
+     command: rocks add roll /tmp/xcbc_roll.iso
+     args: 
+         chdir: /tmp
+
+   - name: rocks enable xcbc roll
+     command: rocks enable roll xsede
+   
+   - name: rocks create distro
+     command: rocks create distro
+     args: 
+         chdir: /export/rocks/install/
+
+   - name: rocks run xcbc roll
+     shell: rocks run roll xsede | bash
+   
+   - name: rocks reinstall all nodes
+     command: rocks set host boot compute action=install
+
+   - name: rocks reboot compute nodes
+     command : rocks run host compute '/sbin/reboot'
